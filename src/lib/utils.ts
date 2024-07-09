@@ -16,3 +16,10 @@ export const formatCurrency = (money: number) => {
 export const formatTime = (date: Date) => {
   return formatDistanceToNowStrict(date, { addSuffix: true });
 };
+
+export function toSlug(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+}

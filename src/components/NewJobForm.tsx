@@ -14,7 +14,7 @@ import ButtonLoading from "./ButtonLoading";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LocationInput from "./LocationInput";
-import { X } from "lucide-react";
+import { Loader2Icon, X } from "lucide-react";
 import { Label } from "./ui/label";
 import { draftToMarkdown } from "markdown-draft-js";
 import { jobTypes, locationTypes } from "@/app/jobs/schemas/job.types";
@@ -22,21 +22,22 @@ import { Select } from "./ui/Select";
 import { newJobSchema, newJobType } from "@/app/jobs/schemas/job.schema";
 import { createNewJob } from "@/app/jobs/actions/createJob.action";
 import RichTextEditor from "./RichTextEditor";
+import { Button } from "./ui/button";
 
 const NewJobForm = () => {
   const form = useForm<newJobType>({
     resolver: zodResolver(newJobSchema),
   });
 
+  const isSubmitting = form.formState.isSubmitting;
+
   const onSubmit = async (values: newJobType) => {
     const data = new FormData();
-
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
         data.append(key, value);
       }
     });
-
     try {
       await createNewJob(data);
     } catch (error) {
@@ -256,7 +257,13 @@ const NewJobForm = () => {
                 )}
               />
             </div>
-            <ButtonLoading>Add job</ButtonLoading>
+            <Button disabled={isSubmitting}>
+              {isSubmitting ? (
+                <Loader2Icon className="size-4 animate-spin" />
+              ) : (
+                "Log in"
+              )}
+            </Button>
           </form>
         </Form>
       </div>

@@ -1,4 +1,4 @@
-import { InferModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferModel, InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -24,7 +24,7 @@ export const JobsTable = pgTable("job", {
   companyLogoUrl: varchar("companyLogoUrl"),
   approved: boolean("approved").default(false).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  udpatedAt: timestamp("updatedAt")
+  updatedAt: timestamp("updatedAt")
     .notNull()
     .$onUpdate(() => new Date()),
 });
@@ -46,5 +46,5 @@ export const sessionTable = pgTable("session", {
   }).notNull(),
 });
 
-
-export type Job = InferSelectModel<typeof JobsTable>
+export type Job = InferSelectModel<typeof JobsTable>;
+export type newJob = InferInsertModel<typeof JobsTable>;
