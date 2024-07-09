@@ -14,16 +14,13 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState, useFormStatus } from "react-dom";
-import { useRef } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
-import { login } from "@/app/auth/actions";
+import { login, prevStateType } from "@/app/auth/actions";
+import { useRouter } from "next/navigation";
+import { Loader2Icon } from "lucide-react";
 
 const LogInForm = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const { pending } = useFormStatus();
-
   const formScheme = z.object({
     username: z.string().min(1),
     password: z
@@ -34,15 +31,32 @@ const LogInForm = () => {
   const form = useForm<z.infer<typeof formScheme>>({
     resolver: zodResolver(formScheme),
     mode: "onChange",
-  });
-
-  const [state, action] = useFormState(login, {
-    error: "",
-    inputValues: {
-      username: "",
+    defaultValues: {
       password: "",
+      username: "",
     },
   });
+
+  const { isSubmitting } = form.formState;
+  
+  const [state, setState] = useState<prevStateType>();
+
+  const router = useRouter();
+
+  const onSubmit = async (data: z.infer<typeof formScheme>) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+    const res = await login(formData);
+    setState(res);
+    if (res.success) {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center p-12">
       <div className="mx-auto grid w-[350px] gap-6">
@@ -53,16 +67,7 @@ const LogInForm = () => {
           <p className="text-balance text-muted-foreground">Log In</p>
         </div>
         <Form {...form}>
-          <form
-            ref={formRef}
-            action={action}
-            onSubmit={(evt) => {
-              evt.preventDefault();
-              form.handleSubmit(() => {
-                action(new FormData(formRef.current!));
-              })(evt);
-            }}
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <FormField
@@ -95,19 +100,17 @@ const LogInForm = () => {
                   )}
                 />
               </div>
-              {state.error && <p className="text-destructive">{state.error}</p>}
+              {state?.error && (
+                <p className="text-destructive">{state?.error}</p>
+              )}
 
-              <Button type="submit">{pending ? "Loading..." : "Log in"}</Button>
-
-              {/* <Button variant="outline" className="w-full">
-              Inicia con Google
-              <img
-                className="w-6 h-4 m-1"
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                loading="lazy"
-                alt="google logo"
-              />
-            </Button> */}
+              <Button disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <Loader2Icon className="size-4 animate-spin" />
+                ) : (
+                  "Log in"
+                )}
+              </Button>
             </div>
           </form>
         </Form>

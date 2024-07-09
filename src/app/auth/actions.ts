@@ -16,16 +16,16 @@ type InputValues = {
   password: string;
 };
 
-type prevStateType = {
-  error: string;
+export type prevStateType = {
+  success: boolean;
+  error?: string;
   inputValues: InputValues;
 };
-export async function login(
-  prevState: prevStateType,
-  formData: FormData
-): Promise<ActionResult> {
+export async function login(formData: FormData): Promise<prevStateType> {
   "use server";
-  const username = formData.get("username");
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
+
   if (
     typeof username !== "string" ||
     username.length < 3 ||
@@ -33,16 +33,22 @@ export async function login(
     !/^[a-z0-9_-]+$/.test(username)
   ) {
     return {
+      success: false,
       error: "Invalid username",
+      inputValues: {
+        username,
+        password,
+      },
     };
   }
-  const password = formData.get("password");
   if (
     typeof password !== "string" ||
     password.length < 6 ||
     password.length > 255
   ) {
     return {
+      success: false,
+
       error: "Invalid password",
       inputValues: {
         username,
@@ -66,6 +72,8 @@ export async function login(
     // it is crucial your implementation is protected against brute-force attacks with login throttling etc.
     // If usernames are public, you may outright tell the user that the username is invalid.
     return {
+      success: false,
+
       error: "Incorrect username or password",
       inputValues: {
         username,
@@ -74,9 +82,11 @@ export async function login(
     };
   }
 
-  const validPassword = compareSync(existingUser.password_hash, password);
+  const validPassword = compareSync(password, existingUser.password_hash);
   if (!validPassword) {
     return {
+      success: false,
+
       error: "Incorrect username or password",
       inputValues: {
         username,
@@ -92,15 +102,18 @@ export async function login(
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return {
+    success: true,
+    inputValues: {
+      username,
+      password,
+    },
+  };
 }
 
-export async function signup(
-  prevState: prevStateType,
-  formData: FormData
-): Promise<ActionResult> {
-  const username = formData.get("username");
-  const password = formData.get("password");
+export async function signup(formData: FormData): Promise<prevStateType> {
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
 
   // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
   // keep in mind some database (e.g. mysql) are case insensitive
@@ -111,8 +124,9 @@ export async function signup(
     !/^[a-z0-9_-]+$/.test(username)
   ) {
     return {
+      success: false,
       error: "Invalid username",
-      InputValues: {
+      inputValues: {
         username,
         password,
       },
@@ -124,15 +138,16 @@ export async function signup(
     password.length > 255
   ) {
     return {
+      success: false,
       error: "Invalid password",
-      InputValues: {
+      inputValues: {
         username,
         password,
       },
     };
   }
 
-  const passwordHash = await hashSync(password, 10);
+  const passwordHash = hashSync(password, 10);
   const userId = generateIdFromEntropySize(10); // 16 characters long
 
   // TODO: check if username is already used
@@ -142,8 +157,10 @@ export async function signup(
   });
   if (userExist) {
     return {
+      success: false,
+
       error: "User already exist",
-      InputValues: {
+      inputValues: {
         username,
         password,
       },
@@ -153,7 +170,7 @@ export async function signup(
   await db.insert(userTable).values({
     id: userId,
     password_hash: passwordHash,
-    username,
+    username: username.toLowerCase(),
   });
 
   const session = await lucia.createSession(userId, {});
@@ -163,7 +180,13 @@ export async function signup(
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return {
+    success: true,
+    inputValues: {
+      username,
+      password,
+    },
+  };
 }
 
 export async function logout(): Promise<ActionResult> {
@@ -182,5 +205,5 @@ export async function logout(): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/auth/login");
+  return redirect("/auth/signin");
 }

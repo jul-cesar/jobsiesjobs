@@ -1,3 +1,4 @@
+import { InferModel, InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -29,20 +30,21 @@ export const JobsTable = pgTable("job", {
 });
 
 export const userTable = pgTable("user", {
-	id: text("id").primaryKey(),
-   username: varchar("username", { length: 12 }).notNull().unique(),
+  id: text("id").primaryKey(),
+  username: varchar("username", { length: 12 }).notNull().unique(),
   password_hash: varchar("password_hash").notNull(),
 });
 
 export const sessionTable = pgTable("session", {
-	id: text("id").primaryKey(),
-	userId: text("user_id")
-		.notNull()
-		.references(() => userTable.id),
-	expiresAt: timestamp("expires_at", {
-		withTimezone: true,
-		mode: "date"
-	}).notNull()
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id),
+  expiresAt: timestamp("expires_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
 });
 
 
+export type Job = InferSelectModel<typeof JobsTable>

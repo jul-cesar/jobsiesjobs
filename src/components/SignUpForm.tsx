@@ -14,15 +14,14 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState, useFormStatus } from "react-dom";
-import { useRef } from "react";
-import { signup } from "@/app/auth/actions";
+
+import { prevStateType, signup } from "@/app/auth/actions";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { Loader2Icon } from "lucide-react";
+import { useState } from "react";
 
 const SignUpForm = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const { pending } = useFormStatus();
-
   const formScheme = z
     .object({
       username: z.string().min(1),
@@ -41,15 +40,36 @@ const SignUpForm = () => {
   const form = useForm<z.infer<typeof formScheme>>({
     resolver: zodResolver(formScheme),
     mode: "onChange",
-  });
-
-  const [state, action] = useFormState(signup, {
-    error: "",
-    inputValues: {
-      username: "",
+    defaultValues: {
       password: "",
+      passwordConfirm: "",
+      username: "",
     },
   });
+  const { isSubmitting } = form.formState;
+
+  const [state, setState] = useState<prevStateType>();
+
+  const router = useRouter();
+
+  const onSubmit = async (data: z.infer<typeof formScheme>) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+
+    const res = await signup(formData);
+
+    setState(res);
+
+    if (res.success) {
+      router.push("/auth/signin");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center p-12">
       <div className="mx-auto grid w-[350px] gap-6">
@@ -60,16 +80,7 @@ const SignUpForm = () => {
           <p className="text-balance text-muted-foreground">Sign up</p>
         </div>
         <Form {...form}>
-          <form
-            ref={formRef}
-            action={action}
-            onSubmit={(evt) => {
-              evt.preventDefault();
-              form.handleSubmit(() => {
-                action(new FormData(formRef.current!));
-              })(evt);
-            }}
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <FormField
@@ -116,25 +127,22 @@ const SignUpForm = () => {
                   )}
                 />
               </div>
-              {state.error && <p className="text-destructive">{state.error}</p>}
-              <Button type="submit">
-                {pending ? "Loading..." : "Log in"}
-              </Button>{" "}
-              {/* <Button variant="outline" className="w-full">
-              Inicia con Google
-              <img
-                className="w-6 h-4 m-1"
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                loading="lazy"
-                alt="google logo"
-              />
-            </Button> */}
+              {state?.error && (
+                <p className="text-destructive">{state.error}</p>
+              )}
+              <Button disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <Loader2Icon className="size-4 animate-spin" />
+                ) : (
+                  "Sign up"
+                )}
+              </Button>
             </div>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/auth/login" className="underline">
+          <Link href="/auth/signin" className="underline">
             Log in{" "}
           </Link>
         </div>

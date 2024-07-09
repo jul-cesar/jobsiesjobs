@@ -29,6 +29,12 @@ importers:
       '@types/bcrypt':
         specifier: ^5.0.2
         version: 5.0.2
+      '@types/markdown-draft-js':
+        specifier: ^2.2.7
+        version: 2.2.7
+      '@types/react-draft-wysiwyg':
+        specifier: ^1.13.8
+        version: 1.13.8
       '@vercel/blob':
         specifier: ^0.23.4
         version: 0.23.4
@@ -1049,6 +1055,9 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
+  '@types/draft-js@0.11.18':
+    resolution: {integrity: sha512-lP6yJ+EKv5tcG1dflWgDKeezdwBa8wJ7KkiNrrHqXuXhl/VGes1SKjEfKHDZqOz19KQbrAhFvNhDPWwnQXYZGQ==}
+
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
 
@@ -1060,6 +1069,9 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+
+  '@types/markdown-draft-js@2.2.7':
+    resolution: {integrity: sha512-EXnEi36xa9m7HH4O1yH6Sp8zd29u4nDzKvtNPt0QSRDjGSC33UcyFVQ86D4GGEVnUlbB0ySm6eXZTAjekVKpNA==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -1078,6 +1090,9 @@ packages:
 
   '@types/react-dom@18.3.0':
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
+
+  '@types/react-draft-wysiwyg@1.13.8':
+    resolution: {integrity: sha512-qo0vIHjqAYq3Hz93Td3ecNodgVjKsvrWkBJ6mZXJSUmQzrQ5Fu7NS9oV5PXnVbnuqPoJLALbCSiz8UCksLribg==}
 
   '@types/react@18.3.3':
     resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
@@ -3887,6 +3902,11 @@ snapshots:
     dependencies:
       '@types/ms': 0.7.34
 
+  '@types/draft-js@0.11.18':
+    dependencies:
+      '@types/react': 18.3.3
+      immutable: 3.7.6
+
   '@types/estree-jsx@1.0.5':
     dependencies:
       '@types/estree': 1.0.5
@@ -3898,6 +3918,10 @@ snapshots:
       '@types/unist': 3.0.2
 
   '@types/json5@0.0.29': {}
+
+  '@types/markdown-draft-js@2.2.7':
+    dependencies:
+      '@types/draft-js': 0.11.18
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -3919,6 +3943,11 @@ snapshots:
 
   '@types/react-dom@18.3.0':
     dependencies:
+      '@types/react': 18.3.3
+
+  '@types/react-draft-wysiwyg@1.13.8':
+    dependencies:
+      '@types/draft-js': 0.11.18
       '@types/react': 18.3.3
 
   '@types/react@18.3.3':
