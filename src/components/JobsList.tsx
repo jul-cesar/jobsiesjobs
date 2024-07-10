@@ -7,7 +7,7 @@ const JobsList = async () => {
   return (
     <div className="grow space-y-4">
       {jobs?.map((job) => (
-        <Link className="block" href={`/jobs/${job.slug}`}>
+        <Link key={job.id} className="block" href={`/jobs/${job.slug}`}>
           {" "}
           <JobsListItem job={job} />{" "}
         </Link>

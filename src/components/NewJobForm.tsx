@@ -261,7 +261,7 @@ const NewJobForm = () => {
               {isSubmitting ? (
                 <Loader2Icon className="size-4 animate-spin" />
               ) : (
-                "Log in"
+                "Submit"
               )}
             </Button>
           </form>
