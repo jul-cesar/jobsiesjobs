@@ -57,4 +57,7 @@ const LocationInput = forwardRef<HTMLInputElement, LocationInputProps>(
   }
 );
 
+LocationInput.displayName = "LocationInput";
+
+
 export default LocationInput;

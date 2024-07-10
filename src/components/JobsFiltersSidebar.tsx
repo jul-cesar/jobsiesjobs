@@ -1,7 +1,7 @@
 import { jobTypes } from "@/app/jobs/schemas/job.types";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Select } from "./ui/Select";
+import Select from "./ui/Select";
 import { db } from "@/db";
 import { JobsTable } from "@/db/schema";
 import { JobFilterValues } from "@/app/jobs/schemas/job.schema";

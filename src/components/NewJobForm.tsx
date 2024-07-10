@@ -18,7 +18,7 @@ import { Loader2Icon, X } from "lucide-react";
 import { Label } from "./ui/label";
 import { draftToMarkdown } from "markdown-draft-js";
 import { jobTypes, locationTypes } from "@/app/jobs/schemas/job.types";
-import { Select } from "./ui/Select";
+import Select from "./ui/Select";
 import { newJobSchema, newJobType } from "@/app/jobs/schemas/job.schema";
 import { createNewJob } from "@/app/jobs/actions/createJob.action";
 import RichTextEditor from "./RichTextEditor";
