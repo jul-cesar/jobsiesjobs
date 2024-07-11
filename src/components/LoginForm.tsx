@@ -38,7 +38,7 @@ const LogInForm = () => {
   });
 
   const { isSubmitting } = form.formState;
-  
+
   const [state, setState] = useState<prevStateType>();
 
   const router = useRouter();
@@ -46,7 +46,9 @@ const LogInForm = () => {
   const onSubmit = async (data: z.infer<typeof formScheme>) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      if (value) {
+      if (key === "username") {
+        formData.append(key, value.toLowerCase());
+      } else {
         formData.append(key, value);
       }
     });

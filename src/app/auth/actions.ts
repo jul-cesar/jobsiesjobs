@@ -22,7 +22,6 @@ export type prevStateType = {
   inputValues: InputValues;
 };
 export async function login(formData: FormData): Promise<prevStateType> {
-  "use server";
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 

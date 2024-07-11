@@ -37,7 +37,7 @@ const JobsResults = async ({ filterValues }: JobsResultsProps) => {
     conditions.push(eq(JobsTable.locationType, "Remote"));
   }
 
-//   conditions.push(eq(JobsTable.approved, true));
+  //   conditions.push(eq(JobsTable.approved, true));
   const combinedConditions = and(...conditions);
 
   const jobs = await db.select().from(JobsTable).where(combinedConditions);

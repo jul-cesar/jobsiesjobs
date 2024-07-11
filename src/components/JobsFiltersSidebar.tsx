@@ -5,11 +5,10 @@ import Select from "./ui/Select";
 import { db } from "@/db";
 import { JobsTable } from "@/db/schema";
 import { JobFilterValues } from "@/app/jobs/schemas/job.schema";
-import { Button } from "./ui/button";
 import { isNotNull } from "drizzle-orm";
-import { FilterIcon } from "lucide-react";
 import { filterJobs } from "@/app/jobs/actions/filterJobst";
 import ButtonActionsLoading from "./ButtonActionsLoading";
+import { Button } from "./ui/button";
 
 type JobsFiltersSidebarProps = {
   defaultValues: JobFilterValues;
@@ -26,7 +25,7 @@ const JobsFiltersSidebar = async ({
     .where(isNotNull(JobsTable.location));
 
   return (
-    <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
+    <aside className="sticky top-0 h-fit rounded-lg border bg-background p-3 md:w-[290px]">
       <form action={filterJobs} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
@@ -81,7 +80,11 @@ const JobsFiltersSidebar = async ({
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <ButtonActionsLoading>Filter jobs</ButtonActionsLoading>
+          <div className="flex items-center justify-between">
+            <ButtonActionsLoading>Filter jobs</ButtonActionsLoading>
+            {/* {Object.values(defaultValues).some((v) => v || false) && (
+            )} */}
+          </div>
         </div>
       </form>
     </aside>

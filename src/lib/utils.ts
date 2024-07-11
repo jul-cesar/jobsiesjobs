@@ -23,3 +23,4 @@ export function toSlug(str: string) {
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 }
+

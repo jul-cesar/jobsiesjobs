@@ -56,7 +56,9 @@ const SignUpForm = () => {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-      if (value) {
+      if (key === "username") {
+        formData.append(key, value.toLowerCase());
+      } else {
         formData.append(key, value);
       }
     });
