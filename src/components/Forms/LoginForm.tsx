@@ -15,7 +15,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { login, prevStateType } from "@/app/auth/actions";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";

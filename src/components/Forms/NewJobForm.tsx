@@ -8,21 +8,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import ButtonLoading from "./ButtonLoading";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import ButtonLoading from "../ButtonLoading";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import LocationInput from "./LocationInput";
+import LocationInput from "../LocationInput";
 import { Loader2Icon, X } from "lucide-react";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 import { draftToMarkdown } from "markdown-draft-js";
 import { jobTypes, locationTypes } from "@/app/jobs/schemas/job.types";
-import Select from "./ui/Select";
+import Select from "../ui/Select";
 import { newJobSchema, newJobType } from "@/app/jobs/schemas/job.schema";
 import { createNewJob } from "@/app/jobs/actions/createJob.action";
-import RichTextEditor from "./RichTextEditor";
-import { Button } from "./ui/button";
+import RichTextEditor from "../RichTextEditor";
+import { Button } from "../ui/button";
 
 const NewJobForm = () => {
   const form = useForm<newJobType>({
@@ -45,13 +45,16 @@ const NewJobForm = () => {
     }
   };
   return (
-    <main className="m-auto my-10 max-w-3xl space-y-10">
-      <div className="space-y-5 text-center">
-        <h1>Find your perfect developer</h1>
-        <p className="text-muted-foreground">
+    <main className="m-auto my-10 max-w-3xl space-y-10 p-2">
+      <div className="space-y-4 flex-1 text-center ">
+        <h1 className="text-gray-700 font-bold text-4xl xl:text-5xl">
+          Find your perfect<span className="text-primary"> developer</span>
+        </h1>
+        <p className="text-gray-500 max-w-xl text-center leading-relaxed sm:mx-auto ">
           Get your job posting seen by thousands of job seekers.
         </p>
       </div>
+
       <div className="space-y-6 rounded-lg border p-4">
         <div>
           <h2 className="font-semibold">Job details</h2>

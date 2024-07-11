@@ -1,4 +1,4 @@
-import LogInForm from "@/components/LoginForm";
+import LogInForm from "@/components/Forms/LoginForm";
 import { validateRequest } from "@/lib/validateRequest";
 import { redirect } from "next/navigation";
 import React from "react";

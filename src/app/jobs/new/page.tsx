@@ -1,7 +1,8 @@
-import NewJobForm from "@/components/NewJobForm"
+import NewJobForm from "@/components/Forms/NewJobForm";
+
 
 const page = () => {
-  return <NewJobForm/>;
+  return <NewJobForm />;
 };
 
 export default page;
