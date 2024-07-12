@@ -16,10 +16,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { prevStateType, signup } from "@/app/auth/actions";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 const SignUpForm = () => {
   const formScheme = z
