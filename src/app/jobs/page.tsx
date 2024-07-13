@@ -1,4 +1,3 @@
-
 import { JobFilterValues } from "./schemas/job.schema";
 import JobsFiltersSidebar from "@/components/JobsFiltersSidebar";
 import JobsResults from "@/components/JobsResults";
@@ -10,11 +9,12 @@ type JobsPageProps = {
     type?: string;
     location?: string;
     remote?: string;
+    page?: string;
   };
 };
 
 const page = ({
-  searchParams: { q, location, remote, type },
+  searchParams: { q, location, remote, type, page },
 }: JobsPageProps) => {
   const filterValues: JobFilterValues = {
     q,
@@ -35,7 +35,10 @@ const page = ({
       </div>
 
       <section className="flex flex-col-reverse gap-3 sm:flex-row-reverse">
-        <JobsResults filterValues={filterValues} />
+        <JobsResults
+          filterValues={filterValues}
+          page={page ? parseInt(page) : undefined}
+        />
         <JobsFiltersSidebar defaultValues={filterValues} />
         <ButtonGroupMobile defaultValues={filterValues} />
       </section>

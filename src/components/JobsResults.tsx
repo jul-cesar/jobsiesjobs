@@ -3,13 +3,15 @@ import JobsListItem from "./JobsListItem";
 import { JobFilterValues } from "@/app/jobs/schemas/job.schema";
 import { db } from "@/db";
 import { JobsTable } from "@/db/schema";
-import { and, eq, sql } from "drizzle-orm";
+import { and, asc, count, eq, sql } from "drizzle-orm";
+import { PaginationDemo } from "./PaginationButtons";
 
 type JobsResultsProps = {
   filterValues: JobFilterValues;
+  page?: number;
 };
 
-const JobsResults = async ({ filterValues }: JobsResultsProps) => {
+const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
   const { q, type, location, remote } = filterValues;
   const searchString = q
     ?.split(" ")
@@ -38,9 +40,27 @@ const JobsResults = async ({ filterValues }: JobsResultsProps) => {
   }
 
   //   conditions.push(eq(JobsTable.approved, true));
+
   const combinedConditions = and(...conditions);
 
-  const jobs = await db.select().from(JobsTable).where(combinedConditions);
+  const jobsCount = await db
+    .select({ count: count() })
+    .from(JobsTable)
+    .where(combinedConditions);
+
+  console.log(jobsCount?.[0].count);
+  const jobsPerPage = 3;
+  const skip = (page - 1) * jobsPerPage;
+
+  const jobs = await db
+    .select()
+    .from(JobsTable)
+    .where(combinedConditions)
+    .orderBy(asc(JobsTable.createdAt))
+    .limit(jobsPerPage)
+    .offset(skip);
+    
+    console.log(jobs,page, skip )
   return (
     <div className="grow space-y-4">
       {jobs?.map((job) => (
@@ -53,6 +73,11 @@ const JobsResults = async ({ filterValues }: JobsResultsProps) => {
           No jobs found. Try adjusting your search filters.
         </p>
       )}
+      <PaginationDemo
+        currentPage={page}
+        filterValues={filterValues}
+        totalPages={Math.ceil(jobsCount?.[0].count / jobsPerPage)}
+      />
     </div>
   );
 };
