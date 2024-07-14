@@ -6,6 +6,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 type paginationProps = {
   filterValues: JobFilterValues;
@@ -30,16 +31,23 @@ export function PaginationDemo({
     });
     return `/?${url.toString()}`;
   };
+  console.log("total", totalPages);
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href={generateLink(currentPage - 1)} />
-        </PaginationItem>
-
-        <PaginationItem>
-          <PaginationNext href={generateLink(currentPage + 1)} />
-        </PaginationItem>
+        {!(currentPage <= 1) && (
+          <PaginationItem>
+            <PaginationPrevious href={generateLink(currentPage - 1)} />
+          </PaginationItem>
+        )}
+        <Label>
+          Page {currentPage} of {totalPages}
+        </Label>
+        {currentPage === totalPages && (
+          <PaginationItem>
+            <PaginationNext href={generateLink(currentPage + 1)} />
+          </PaginationItem>
+        )}
       </PaginationContent>
     </Pagination>
   );

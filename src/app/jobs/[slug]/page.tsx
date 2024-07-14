@@ -14,6 +14,14 @@ interface PageProps {
 const getJob = cache(async (slug: string) => {
   const job = await db.query.JobsTable.findFirst({
     where: eq(JobsTable.slug, slug),
+    with: {
+      author: {
+        columns: {
+          id: true,
+          username: true,
+        },
+      },
+    },
   });
 
   if (!job) notFound();
@@ -44,6 +52,7 @@ export async function generateMetadata({
 
 export default async function Page({ params: { slug } }: PageProps) {
   const job = await getJob(slug);
+  console.log("authoe", job.author);
 
   const { applicationEmail, applicationUrl } = job;
 
@@ -58,7 +67,7 @@ export default async function Page({ params: { slug } }: PageProps) {
 
   return (
     <main className="m-auto my-10 flex max-w-5xl flex-col items-center gap-5 px-3 md:flex-row md:items-start">
-      <JobPage job={job} />
+      <JobPage job={job}  Author={job.author}/>
       <aside>
         <Button asChild>
           <a href={applicationLink} className="w-40 md:w-fit">

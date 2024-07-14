@@ -25,7 +25,7 @@ const JobsListItem = ({
         src={companyLogoUrl || companyLogoPlaceholder.src}
         alt={`${companyName} logo`}
         width={100}
-        height={100}
+        height={80}
         className="self-center rounded-lg"
       />
       <div className="flex-grow space-y-3">
@@ -59,18 +59,22 @@ const JobsListItem = ({
             <Banknote size={16} className="shrink-0" />
             {formatCurrency(salary)}
           </p>
+          {type}
         </section>
       </div>
-      <footer className="hidden shrink-0 flex-col items-end justify-between sm:flex">
+      <footer className="hidden shrink-0 flex-col items-end justify-between  sm:flex">
         <p className="flex items-center gap-1.5">
           <Globe2 size={16} className="shrink-0" />
           {location || "Worldwide"}
         </p>
-        {type}
+      
         <time className="flex items-center gap-1.5 text-muted-foreground text-sm">
           <Clock size={16} />
           {formatTime(createdAt)}
         </time>
+        <p>
+       
+        </p>
       </footer>
     </article>
   );

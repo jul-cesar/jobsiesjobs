@@ -6,10 +6,13 @@ import { toSlug } from "@/lib/utils";
 import { put } from "@vercel/blob";
 import path from "path";
 import { db } from "@/db";
-import { JobsTable } from "@/db/schema";
+import { JobsTable, newJob } from "@/db/schema";
 import { redirect } from "next/navigation";
+import { validateRequest } from "@/lib/validateRequest";
 
 export const createNewJob = async (formData: FormData) => {
+  const { user } = await validateRequest();
+  const userId = user?.id as string;
   let companyLogoUrl;
   const values = Object.fromEntries(formData.entries());
 
@@ -40,22 +43,7 @@ export const createNewJob = async (formData: FormData) => {
     companyLogoUrl = blob.url;
   }
 
-  type JobValues = {
-    slug: string;
-    title: string;
-    type: string;
-    locationType: string;
-    location?: string;
-    description: string;
-    salary: number;
-    companyName?: string;
-    applicationEmail?: string;
-    applicationUrl?: string;
-    companyLogoUrl?: string;
-    approved: boolean;
-  };
-
-  const jobValues: JobValues = {
+  const jobValues: newJob = {
     slug,
     title,
     type,
@@ -68,6 +56,7 @@ export const createNewJob = async (formData: FormData) => {
     applicationUrl,
     companyLogoUrl,
     approved: false,
+    postedBy: userId,
   };
 
   await db.insert(JobsTable).values(jobValues);

@@ -1,4 +1,9 @@
-import { InferInsertModel, InferModel, InferSelectModel } from "drizzle-orm";
+import {
+  InferInsertModel,
+  InferModel,
+  InferSelectModel,
+  relations,
+} from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -22,6 +27,7 @@ export const JobsTable = pgTable("job", {
   applicationEmail: varchar("applicationEmail"),
   applicationUrl: varchar("applicationUrl"),
   companyLogoUrl: varchar("companyLogoUrl"),
+  postedBy: text("postedBy").notNull(),
   approved: boolean("approved").default(false).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt")
@@ -29,11 +35,23 @@ export const JobsTable = pgTable("job", {
     .$onUpdate(() => new Date()),
 });
 
+
+export const JobsRelation = relations(JobsTable, ({ one }) => ({
+  author: one(userTable, {
+    fields: [JobsTable.postedBy],
+    references: [userTable.id],
+  }),
+}));
+
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
   username: varchar("username", { length: 12 }).notNull().unique(),
   password_hash: varchar("password_hash").notNull(),
 });
+
+export const userRelation = relations(userTable, ({ many }) => ({
+  jobs: many(JobsTable),
+}));
 
 export const sessionTable = pgTable("session", {
   id: text("id").primaryKey(),
@@ -47,4 +65,7 @@ export const sessionTable = pgTable("session", {
 });
 
 export type Job = InferSelectModel<typeof JobsTable>;
+
+export type User = InferSelectModel<typeof userTable>
+
 export type newJob = InferInsertModel<typeof JobsTable>;

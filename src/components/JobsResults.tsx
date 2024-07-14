@@ -48,8 +48,7 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
     .from(JobsTable)
     .where(combinedConditions);
 
-  console.log(jobsCount?.[0].count);
-  const jobsPerPage = 3;
+  const jobsPerPage = 5;
   const skip = (page - 1) * jobsPerPage;
 
   const jobs = await db
@@ -59,10 +58,10 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
     .orderBy(asc(JobsTable.createdAt))
     .limit(jobsPerPage)
     .offset(skip);
-    
-    console.log(jobs,page, skip )
+
+  console.log(jobs, page, skip);
   return (
-    <div className="grow space-y-4">
+    <div className="grow space-y-4 flex flex-col">
       {jobs?.map((job) => (
         <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
           <JobsListItem job={job} />
@@ -73,11 +72,13 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
           No jobs found. Try adjusting your search filters.
         </p>
       )}
-      <PaginationDemo
-        currentPage={page}
-        filterValues={filterValues}
-        totalPages={Math.ceil(jobsCount?.[0].count / jobsPerPage)}
-      />
+      <div >
+        <PaginationDemo
+          currentPage={page}
+          filterValues={filterValues}
+          totalPages={Math.ceil(jobsCount?.[0].count / jobsPerPage)}
+        />
+      </div>
     </div>
   );
 };

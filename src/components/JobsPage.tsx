@@ -1,12 +1,13 @@
 import { Banknote, Briefcase, Globe2, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Job } from "@/db/schema";
+import { Job, User } from "@/db/schema";
 import { formatCurrency } from "@/lib/utils";
 import Markdown from "./Markdown";
 
 interface JobPageProps {
   job: Job;
+  Author: Partial<User>;
 }
 
 export default function JobPage({
@@ -21,9 +22,11 @@ export default function JobPage({
     salary,
     companyLogoUrl,
   },
+  Author: { id, username },
 }: JobPageProps) {
   return (
     <section className="w-full grow space-y-5">
+      <p>Posted by: {username}</p>
       <div className="flex items-center gap-3">
         {companyLogoUrl && (
           <Image
