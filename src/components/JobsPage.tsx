@@ -26,7 +26,6 @@ export default function JobPage({
 }: JobPageProps) {
   return (
     <section className="w-full grow space-y-5">
-      <p>Posted by: {username}</p>
       <div className="flex items-center gap-3">
         {companyLogoUrl && (
           <Image
@@ -49,9 +48,10 @@ export default function JobPage({
                   {companyName}
                 </Link>
               ) : (
-                <span>{companyName}</span>
+                <span className="text-secondary-foreground">{companyName}</span>
               )}
             </p>
+            <p>Posted by: {username}</p>
           </div>
           <div className="text-muted-foreground">
             <p className="flex items-center gap-1.5">

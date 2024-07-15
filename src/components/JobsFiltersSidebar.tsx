@@ -16,7 +16,7 @@ const JobsFiltersSidebar = async ({
   const distinct = await distinctLocations();
 
   return (
-    <aside className="sticky top-3 h-fit hidden sm:block">
+    <aside className="sticky top-[12%]  h-fit hidden sm:block">
       <div className="rounded-lg border bg-background p-3 md:w-[290px] mb-4">
         <FiltersForm defaultValues={defaultValues} />
       </div>

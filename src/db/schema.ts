@@ -7,12 +7,14 @@ import {
 import {
   boolean,
   integer,
+  pgEnum,
   pgTable,
   text,
   timestamp,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
+import { number } from "zod";
 
 export const JobsTable = pgTable("job", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -35,18 +37,21 @@ export const JobsTable = pgTable("job", {
     .$onUpdate(() => new Date()),
 });
 
-
 export const JobsRelation = relations(JobsTable, ({ one }) => ({
   author: one(userTable, {
     fields: [JobsTable.postedBy],
     references: [userTable.id],
   }),
 }));
+const roles = ["user", "admin"] as const;
+export type rolesEnum = (typeof roles)[number];
+export const RolesEnum = pgEnum("role", roles);
 
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
   username: varchar("username", { length: 12 }).notNull().unique(),
   password_hash: varchar("password_hash").notNull(),
+  rol: RolesEnum("rol").default("user").notNull(),
 });
 
 export const userRelation = relations(userTable, ({ many }) => ({
@@ -66,6 +71,6 @@ export const sessionTable = pgTable("session", {
 
 export type Job = InferSelectModel<typeof JobsTable>;
 
-export type User = InferSelectModel<typeof userTable>
+export type User = InferSelectModel<typeof userTable>;
 
 export type newJob = InferInsertModel<typeof JobsTable>;

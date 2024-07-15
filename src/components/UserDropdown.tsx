@@ -10,7 +10,6 @@ import {
 } from "./ui/dropdown-menu";
 import { logout } from "@/app/auth/actions";
 import { AvatarUser } from "./AvatarUser";
-import { userTable } from "@/db/schema";
 
 type UserDropdownProps = {
   username: string;
@@ -18,7 +17,7 @@ type UserDropdownProps = {
 
 const UserDropdown = ({ username }: UserDropdownProps) => {
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger>
         <AvatarUser />
       </DropdownMenuTrigger>
