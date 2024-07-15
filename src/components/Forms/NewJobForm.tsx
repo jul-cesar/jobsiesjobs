@@ -23,6 +23,7 @@ import { newJobSchema, newJobType } from "@/app/jobs/schemas/job.schema";
 import { createNewJob } from "@/app/jobs/actions/createJob.action";
 import RichTextEditor from "../RichTextEditor";
 import { Button } from "../ui/button";
+import HeroText from "../HeroText";
 
 const NewJobForm = () => {
   const form = useForm<newJobType>({
@@ -46,15 +47,12 @@ const NewJobForm = () => {
   };
   return (
     <main className="m-auto my-10 max-w-3xl space-y-10 p-2">
-      <div className="space-y-4 flex-1 text-center ">
-        <h1 className="text-gray-700 font-bold text-4xl xl:text-5xl">
-          Find your perfect<span className="text-primary"> developer</span>
-        </h1>
-        <p className="text-gray-500 max-w-xl text-center leading-relaxed sm:mx-auto ">
-          Get your job posting seen by thousands of job seekers.
-        </p>
-      </div>
-
+      <HeroText
+        title="Find your perfect"
+        coloredText="developer"
+        subtitle="          Get your job posting seen by thousands of job seekers.
+"
+      />
       <div className="space-y-6 rounded-lg border p-4">
         <div>
           <h2 className="font-semibold">Job details</h2>

@@ -61,5 +61,5 @@ export const createNewJob = async (formData: FormData) => {
 
   await db.insert(JobsTable).values(jobValues);
 
-  redirect("/succesfully-submited");
+  redirect("/jobs/succesfully-submited");
 };

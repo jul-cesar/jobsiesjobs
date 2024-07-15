@@ -31,7 +31,6 @@ export function PaginationDemo({
     });
     return `/?${url.toString()}`;
   };
-  console.log("total", totalPages);
   return (
     <Pagination>
       <PaginationContent>
