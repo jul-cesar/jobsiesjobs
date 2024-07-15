@@ -1,5 +1,3 @@
-"use server";
-
 import JobPage from "@/components/JobsPage";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
@@ -30,17 +28,6 @@ const getJob = cache(async (slug: string) => {
 
   return job;
 });
-
-export async function generateStaticParams() {
-  const jobs = await db.query.JobsTable.findMany({
-    where: eq(JobsTable.approved, true),
-    columns: {
-      slug: true,
-    },
-  });
-
-  return jobs.map(({ slug }) => slug);
-}
 
 export async function generateMetadata({
   params: { slug },
