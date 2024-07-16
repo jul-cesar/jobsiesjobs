@@ -55,7 +55,7 @@ const LogInForm = () => {
     const res = await login(formData);
     setState(res);
     if (res.success) {
-      router.push("/");
+      window.location.reload();
     }
   };
 
@@ -118,7 +118,7 @@ const LogInForm = () => {
         </Form>
         <div className="mt-4 text-center text-sm">
           Dont have an account yet?{" "}
-          <Link href="/auth/signup" className="underline">
+          <Link href="/signup" className="underline">
             Sign up{" "}
           </Link>
         </div>

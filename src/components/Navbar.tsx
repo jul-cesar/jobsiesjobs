@@ -18,13 +18,23 @@ const Navbar = async () => {
               J
             </h1>
           </Link>
-          {user?.rol === "admin" && <Link href={"/jobs/admin"} className="text-gray-700 hover:text-indigo-600 underline"> Admin</Link>}
+          {user?.rol === "admin" && (
+            <Link
+              href={"/jobs/admin"}
+              className="text-gray-700 hover:text-indigo-600 underline"
+            >
+              {" "}
+              Admin
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center gap-2  ">
           <ThemeToggle />
           {!user?.id ? (
-            <Button>Get started</Button>
+            <Link href="/signin">
+              <Button>Get started</Button>
+            </Link>
           ) : (
             <UserDropdown username={user.username} />
           )}
