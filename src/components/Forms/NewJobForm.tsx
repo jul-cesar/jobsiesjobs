@@ -257,9 +257,12 @@ const NewJobForm = () => {
                 )}
               />
             </div>
-            <Button disabled={isSubmitting}>
+            <Button disabled={isSubmitting} className="w-52">
               {isSubmitting ? (
-                <Loader2Icon className="size-4 animate-spin" />
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <Loader2Icon className="size-4 animate-spin" /> Submit{" "}
+                </div>
               ) : (
                 "Submit"
               )}

@@ -7,7 +7,7 @@ import Link from "next/link";
 const Navbar = async () => {
   const { user } = await validateRequest();
   return (
-    <nav className="start-0 top-0 z-20 sticky w-full border-b border-border bg-background">
+    <nav className="start-0 top-0 z-20 sticky w-full border-b border-border bg-background px-3">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-2.5">
         <div className="flex items-center gap-6">
           <Link

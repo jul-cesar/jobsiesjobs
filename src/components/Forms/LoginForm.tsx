@@ -61,7 +61,7 @@ const LogInForm = () => {
 
   return (
     <div className="flex items-center justify-center p-12">
-      <div className="mx-auto grid w-[350px] gap-6">
+      <div className="mx-auto grid w-[260px] sm:w-[350px] gap-6">
         <div className="grid gap-2 text-center">
           <h1 className="relative rotate-12 font-mono text-lg font-bold underline sm:text-xl">
             J

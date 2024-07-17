@@ -16,7 +16,7 @@ import {
     };
     return (
       <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange} >
-        <DialogContent className="w-[380px] ">
+        <DialogContent >
         {children}
         </DialogContent>
       </Dialog>
