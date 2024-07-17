@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/db";
 import { JobsTable } from "@/db/schema";
-import { and, asc, count, eq, sql } from "drizzle-orm";
+import {  asc, count, eq, sql } from "drizzle-orm";
 import { PaginationDemo } from "@/components/PaginationButtons";
 import JobsListItem from "@/components/JobsListItem";
 import HeroText from "@/components/HeroText";

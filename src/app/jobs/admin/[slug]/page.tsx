@@ -1,5 +1,4 @@
 import JobPage from "@/components/JobsPage";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { JobsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
