@@ -22,9 +22,15 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
 
   if (searchString) {
     conditions.push(sql`
-          to_tsvector('simple', lower(${JobsTable.title} || ' ' || ${JobsTable.description} || ' ' || ${JobsTable.companyName} || ' ' || ${JobsTable.location} || ' ' || ${JobsTable.locationType})) 
-          @@ to_tsquery('simple', lower(${searchString}))
-        `);
+      to_tsvector('simple', lower(
+        coalesce(${JobsTable.title}, '') || ' ' || 
+        coalesce(${JobsTable.description}, '') || ' ' || 
+        coalesce(${JobsTable.companyName}, '') || ' ' || 
+        coalesce(${JobsTable.location}, '') || ' ' || 
+        coalesce(${JobsTable.locationType}, '')
+      )) 
+      @@ to_tsquery('simple', lower(${searchString}))
+    `);
   }
 
   if (type) {
@@ -39,7 +45,7 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
     conditions.push(eq(JobsTable.locationType, "Remote"));
   }
 
-  //   conditions.push(eq(JobsTable.approved, true));
+  conditions.push(eq(JobsTable.approved, true));
 
   const combinedConditions = and(...conditions);
 
@@ -59,16 +65,17 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
     .limit(jobsPerPage)
     .offset(skip);
 
-  const [jobsDb, jobsCountdb] = await Promise.all([jobs, jobsCount]);
+  const [jobsDb, jobsCountDb] = await Promise.all([jobs, jobsCount]);
 
   return (
-    <div className="grow space-y-4 flex flex-col">
-      {jobsDb?.map((job) => (
-        <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
-          <JobsListItem job={job} />
-        </Link>
-      ))}
-      {jobs.length === 0 && (
+    <div className="grow space-y-4 p-2 flex flex-col">
+      {jobsDb?.length > 0 ? (
+        jobsDb.map((job) => (
+          <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
+            <JobsListItem job={job} />
+          </Link>
+        ))
+      ) : (
         <p className="m-auto text-center">
           No jobs found. Try adjusting your search filters.
         </p>
@@ -77,7 +84,7 @@ const JobsResults = async ({ filterValues, page = 1 }: JobsResultsProps) => {
         <PaginationDemo
           currentPage={page}
           filterValues={filterValues}
-          totalPages={Math.ceil(jobsCountdb?.[0].count / jobsPerPage)}
+          totalPages={Math.ceil(jobsCountDb?.[0].count / jobsPerPage)}
         />
       </div>
     </div>

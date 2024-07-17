@@ -14,7 +14,7 @@ const Navbar = async () => {
             href="/jobs"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <h1 className="relative rotate-12 text-primary font-mono text-2xl font-bold underline">
+            <h1 className="relative rotate-12 text-primary font-mono p-2 text-2xl font-bold underline">
               J
             </h1>
           </Link>

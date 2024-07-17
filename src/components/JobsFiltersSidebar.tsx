@@ -13,7 +13,6 @@ type JobsFiltersSidebarProps = {
 const JobsFiltersSidebar = async ({
   defaultValues,
 }: JobsFiltersSidebarProps) => {
-  const distinct = await distinctLocations();
 
   return (
     <aside className="sticky top-[12%]  h-fit hidden sm:block">

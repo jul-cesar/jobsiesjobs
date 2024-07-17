@@ -6,6 +6,8 @@ import { eq } from "drizzle-orm";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import ApproveButton from "../ApproveButton";
+import DeleteButton from "../DeleteButton";
 
 interface PageProps {
   params: { slug: string };
@@ -57,16 +59,8 @@ export default async function Page({ params: { slug } }: PageProps) {
     <main className="m-auto my-10 flex max-w-5xl flex-col items-center gap-5 px-3 md:flex-row md:items-start">
       <JobPage job={job} Author={job.author} />
       <aside className="flex flex-col items-center gap-4">
-        <Button asChild>
-          <a href={applicationLink} className="w-40 md:w-fit">
-           Approve
-          </a>
-        </Button>
-        <Button asChild variant={"destructive"}>
-          <a href={applicationLink} className="w-40 md:w-fit">
-           Delete
-          </a>
-        </Button>
+        <ApproveButton jobId={job.id} />
+        <DeleteButton jobId={job.id} />
       </aside>
     </main>
   );

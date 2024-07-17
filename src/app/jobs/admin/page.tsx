@@ -38,8 +38,8 @@ const UnnaprovedJobs = async ({
   const [jobsDb, jobsCountdb] = await Promise.all([jobs, jobsCount]);
 
   return (
-    <div className="grow space-y-4 flex flex-col">
-        <HeroText title="Unnaproved jobs" subtitle="Admin dashboard"/>
+    <main className="grow space-y-4 flex flex-col p-4">
+      <HeroText coloredText="Unnaproved jobs" subtitle="Admin dashboard" />
       {jobsDb?.map((job) => (
         <Link key={job.id} href={`/jobs/admin/${job.slug}`} className="block">
           <JobsListItem job={job} />
@@ -57,7 +57,7 @@ const UnnaprovedJobs = async ({
           totalPages={Math.ceil(jobsCountdb?.[0].count / jobsPerPage)}
         />
       </div>
-    </div>
+    </main>
   );
 };
 
