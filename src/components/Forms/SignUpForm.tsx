@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { prevStateType, signup } from "@/app/auth/actions";
-import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -68,7 +68,7 @@ const SignUpForm = () => {
     setState(res);
 
     if (res.success) {
-      router.push("/auth/signin");
+      router.push("/signin");
     }
   };
 
